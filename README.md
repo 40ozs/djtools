@@ -79,6 +79,7 @@ python metadata_parse.py /path/to/audio --max-size-mb 50
 - All CSV parts from the same run share the same timestamp (when enabled)
 - Column names are generated dynamically from all extracted metadata keys
 
+File naming output
 ```bash
 audio_metadata_part1_20260401_153012.csv
 audio_metadata_part2_20260401_153012.csv
