@@ -41,6 +41,7 @@ Notes:
 import math
 import os
 import csv
+from datetime import datetime
 from mutagen import File
 from mutagen.id3 import ID3, ID3NoHeaderError
 
@@ -52,6 +53,9 @@ EXCLUDED_PREFIXES = ("._", ".", "~$")
 EXCLUDED_FILES = ("thumbs.db", "desktop.ini")
 
 
+
+
+# Reserved for future CSV normalization
 def flatten_dict(d: dict, parent_key: str = '', sep: str = '.') -> dict:
     """
     Flatten a nested dictionary into a single-level dictionary.
@@ -83,7 +87,7 @@ def is_valid_audio_file(filename: str) -> bool:
     Filters out temp and non-audio files are ignored
 
     Args:
-        file: File name to evaluate.
+        filename: File name to evaluate.
 
     Returns:
         True if the file is a supported audio file.
@@ -187,7 +191,7 @@ def scan_directory(directory: str, ignore_dirs: list[str] | None = None) -> list
     return all_data
 
 
-def write_csv_split(data, output_file, max_rows=50000, max_size_mb=None):
+def write_csv_split(data, output_file, max_rows=50000, max_size_mb=None, timestamp=None):
     """
     Write metadata records to one or more CSV files.
 
@@ -218,7 +222,10 @@ def write_csv_split(data, output_file, max_rows=50000, max_size_mb=None):
 
     def open_new_file(index):
         """Open a new CSV part file and write the header."""
-        filename = f"{base}_part{index}{ext}"
+        if timestamp:
+            filename = f"{base}_part{index}_{timestamp}{ext}"
+        else:
+            filename = f"{base}_part{index}{ext}"
         f = open(filename, "w", newline='', encoding="utf-8")
         w = csv.DictWriter(f, fieldnames=all_keys)
         w.writeheader()
@@ -251,6 +258,8 @@ def write_csv_split(data, output_file, max_rows=50000, max_size_mb=None):
     current_file.close()
 
 if __name__ == "__main__":
+    # Time stamp for file names
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     import argparse
 
     parser = argparse.ArgumentParser(description="Export audio metadata to CSV")
@@ -259,9 +268,15 @@ if __name__ == "__main__":
     parser.add_argument("--ignore-dir", "-i", action="append", default=[], help="Add directories to ignore, must be added multiple times. (Optional)")
     parser.add_argument("--max-rows", "-r", type=int, default=50000, help="Max rows per CSV file (default: 50000)")
     parser.add_argument("--max-size-mb", "-s", type=int, default=None, help="Approx max file size in MB per CSV (Optional)")
+    parser.add_argument("--timestamp", dest="timestamp", action="store_true", help="Append a timestamp to output filenames (default).")
+    parser.add_argument("--no-timestamp", dest="timestamp", action="store_false", help="Do not append a timestamp to output filenames.")
 
 
     args = parser.parse_args()
+    if args.timestamp:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    else:
+        timestamp = None
 
     if os.path.isfile(args.path):
         # Single-file mode
@@ -270,6 +285,9 @@ if __name__ == "__main__":
         # Directory scan mode
         data = scan_directory(args.path, ignore_dirs=args.ignore_dir)
 
-    write_csv_split(data, args.output, max_rows=args.max_rows, max_size_mb=args.max_size_mb)
+    write_csv_split(data, args.output, max_rows=args.max_rows, max_size_mb=args.max_size_mb, timestamp=timestamp)
 
-    print(f"\n✅ Metadata exported to {args.output}")
+    if timestamp:
+        print(f"\nMetadata exported with timestamp: {timestamp}")
+    else:
+        print("\nMetadata exported (no timestamp).")
