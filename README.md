@@ -2,9 +2,9 @@
 Tools to help manage DJing. Files metadata sanitization, audio file management, etc
 
 
-## Metadata Parser
+# Metadata Parser
 
-# Audio Metadata Parser
+## Audio Metadata Parser
 
 A command-line tool for scanning audio files, extracting standard and extended metadata, and exporting the results to CSV.
 
