@@ -82,6 +82,7 @@ All CSV parts from the same run share the same timestamp (when enabled)
 Column names are generated dynamically from all extracted metadata keys
 
 audio_metadata_part1_20260401_153012.csv
+
 audio_metadata_part2_20260401_153012.csv
 
 ### Design Notes
