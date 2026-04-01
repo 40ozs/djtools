@@ -38,14 +38,14 @@ Install dependencies:
 pip install mutagen
 ```
 
-### Usage
+## Usage
 ```bash
 python metadata_parse.py <path> [options]
 ```
 ```bash
 python metadata_parse.py --help
 ```
-### Examples
+## Examples
 
 Scan a directory and export metadata to the default CSV file:
 ```bash
@@ -74,7 +74,7 @@ Split CSV files by approximate size (in MB):
 python metadata_parse.py /path/to/audio --max-size-mb 50
 ```
 
-### Output
+## Output
 
 CSV files are written using UTF‑8 encoding
 If row or size limits are reached, additional files are created
@@ -85,7 +85,7 @@ audio_metadata_part1_20260401_153012.csv
 
 audio_metadata_part2_20260401_153012.csv
 
-### Design Notes
+## Design Notes
 ID3 frame extraction is applied to MP3 files only
 CSV file size limits are approximate (filesystem-based)
 Metadata values are converted to strings for CSV compatibility
