@@ -4,8 +4,6 @@ Tools to help manage DJing. Files metadata sanitization, audio file management, 
 
 # Metadata Parser
 
-## Audio Metadata Parser
-
 A command-line tool for scanning audio files, extracting standard and extended metadata, and exporting the results to CSV.
 
 The script recursively scans directories for supported audio formats, collects container information, tags, and extended ID3 metadata (MP3 only), and writes the output to one or more CSV files with configurable size limits.
