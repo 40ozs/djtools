@@ -198,6 +198,7 @@ SIMILAR FILES
 
 
 ## Architecture Overview
+```txt
 CLI Layer
    ↓
 Command Layer (scan / apply / similarity)
@@ -210,6 +211,7 @@ Core Engine
    ↓
 Storage Layer
    └── SQLite file index (incremental cache)
+```
 
 ### Tech Stack
 
