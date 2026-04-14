@@ -137,7 +137,6 @@ Supports:
 ```txt
 rich 
 numpy
-openl3
 soundfile
 librosa
 ```
@@ -221,7 +220,6 @@ Storage Layer
 | Database |	SQLite |
 | CLI UI |	Rich |
 | Audio Features |	Librosa |
-| Embeddings |	OpenL3 (optional) |
 | Hashing |	SHA256 |
 
 
